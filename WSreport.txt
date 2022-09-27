@@ -1,0 +1,2 @@
+minTemp-maxTemp-avgTemp-rain-rs-rhMin-rhMin-rhMax-wind-altitude-latitude-date
+7.0;17.0;10.0;0.0;100.07;35.0;35.0;56.0;1.2;232.0;0.789642354;23-09-2022

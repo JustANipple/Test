@@ -30,7 +30,6 @@ public class WaterBalance {
         
         System.out.println("Time: " + (end-start) + " milliseconds");
         
-        System.out.println("Questa è una modifica");
         
         
     }

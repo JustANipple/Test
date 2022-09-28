@@ -167,7 +167,8 @@ public class WeatherStation {
     }
     
     //Scrittura sul file dei dati impostati da StationFirstDatas
-    //Si potrebbe direttamente chiamare questo metodo una volta generati randomicamente i valori, in modo da scriverli subito
+    //Si potrebbe direttamente chiamare questo metodo una volta generati randomicamente i valori
+    //in modo da scriverli subito
     public void stationFirstRegistration() {
         StringBuilder firstRow = new StringBuilder();
         firstRow.append(this.minTemp).append(";")

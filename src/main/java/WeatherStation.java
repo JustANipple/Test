@@ -111,7 +111,7 @@ public class WeatherStation {
         this.julianDay = julianDay;
     }
     
-    //Intestazione del file di report della WS
+    //Creazione e intestazione del file per stazione meteo
     public void stationFileSetup() {
         try {
           File myObj = new File("WSreport.txt");
@@ -134,8 +134,9 @@ public class WeatherStation {
         }
     }
     
-    //Scrittura dei primi dati chiesti da console per simulazione dei dati
     //Potrebbe essere sostituita con dei valori standard che vengono randomizzati
+    
+    //Richiesta dei dati da inserire e settaggio dei parametri
     public void stationFirstDatas() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("minTemp(°C):");
@@ -166,9 +167,10 @@ public class WeatherStation {
         
     }
     
-    //Scrittura sul file dei dati impostati da StationFirstDatas
     //Si potrebbe direttamente chiamare questo metodo una volta generati randomicamente i valori
     //in modo da scriverli subito
+    
+    //Scrittura dei primi dati sul file
     public void stationFirstRegistration() {
         StringBuilder firstRow = new StringBuilder();
         firstRow.append(this.minTemp).append(";")

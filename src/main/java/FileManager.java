@@ -15,6 +15,9 @@ public class FileManager {
         this.ws = ws;
     }
     
+    //Prende il valore dell'ultimo giorno.
+    //Conviene utilizzare il codice che già c'è, salvando i dati del giorno precedente
+    //in un oggetto WeatherStation e poi scrivere un nuovo dato, in modo da avere già il last day
     public ArrayList<Double> lastDayFile() {
         ArrayList<Double> nums = new ArrayList<>();
         //creazione o controllo del file

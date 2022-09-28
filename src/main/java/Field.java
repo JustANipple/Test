@@ -54,6 +54,7 @@ public class Field {
         this.kc = kc;
     }
     
+    //Creazione e intestazione del file di campo
     public void FieldFileSetup() {
         try {
           File myObj = new File("FieldReport.txt");
@@ -73,6 +74,11 @@ public class Field {
         }
     }
     
+    //Dato che per un campo di sensori c'è solo una riga di valori che servono per
+    //calcolare le costanti del suolo
+    //Non solo valori simulabili con la randomizzazione, quindi conviene prenderli fissi da file
+    
+    //Richiesta dei dati da inserire e settaggio dei parametri
     public void FieldFirstDatas() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("sabbia(%):");
@@ -87,6 +93,9 @@ public class Field {
         setKc(Double.valueOf(scanner.nextLine()));
     }
     
+    //Chiamare questo metodo direttamente dopo la richiesta dei primi dati
+    
+    //Scrittura dei primi dati sul file
     public void FieldFirstRegistration() {
         StringBuilder firstRow = new StringBuilder();
         firstRow.append(this.sabbia).append(";")

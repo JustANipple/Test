@@ -2,7 +2,6 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Field {
     
@@ -74,40 +73,37 @@ public class Field {
         }
     }
     
-    //Dato che per un campo di sensori c'è solo una riga di valori che servono per
-    //calcolare le costanti del suolo
-    //Non solo valori simulabili con la randomizzazione, quindi conviene prenderli fissi da file
-    
     //Richiesta dei dati da inserire e settaggio dei parametri
-    public void FieldFirstDatas() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("sabbia(%):");
-        setSabbia(Double.valueOf(scanner.nextLine()));
-        System.out.println("argilla(%):");
-        setArgilla(Double.valueOf(scanner.nextLine()));
-        System.out.println("carbonio organico/corg(%):");
-        setCorg(Double.valueOf(scanner.nextLine()));
-        System.out.println("prof(mm):");
-        setProfmm(Double.valueOf(scanner.nextLine()));
-        System.out.println("kc");
-        setKc(Double.valueOf(scanner.nextLine()));
+    //Questi valori vengono richiesti una volta per campo, in quanto le costanti
+    //del suolo rimangono invariate per tutto il periodo attivo
+    public void FieldDatasRegistration() {
+        setSabbia(31.2);
+        setArgilla(50.1);
+        setCorg(0.79);
+        setProfmm(150);
+        setKc(0.3);
+        
+        System.out.println("sabbia(%): " + getSabbia());
+        System.out.println("argilla(%): " + getArgilla());
+        System.out.println("carbonio organico/corg(%): " + getCorg());
+        System.out.println("prof(mm): " + getProfmm());
+        System.out.println("kc: " + getKc());
     }
     
     //Chiamare questo metodo direttamente dopo la richiesta dei primi dati
     
     //Scrittura dei primi dati sul file
-    public void FieldFirstRegistration() {
+    public void FieldDatasReport() {
         StringBuilder firstRow = new StringBuilder();
         firstRow.append(this.sabbia).append(";")
                 .append(this.argilla).append(";")
                 .append(this.corg).append(";")
                 .append(this.profmm).append(";")
-                .append(this.kc);
+                .append(this.kc).append("\n");
         try(FileWriter writer = new FileWriter("FieldReport.txt",true)) {
             writer.write(firstRow.toString());
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
-    
 }

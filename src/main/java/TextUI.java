@@ -24,17 +24,12 @@ public class TextUI {
     }
     
     public void start() {
+        //ws.stationFileSetup();
+        //ws.stationDatasRegistration();
+        //ws.stationDatasReport();
         
-        /*
-        ws.stationFileSetup();
-        ws.stationFirstDatas();
-        ws.stationFirstRegistration();
-        */
-        
-        /*
-        field.FieldFileSetup();
-        field.FieldFirstDatas();
-        field.FieldFirstRegistration();
-        */
+        //field.FieldFileSetup();
+        //field.FieldDatasRegistration();
+        //field.FieldDatasReport();
     }
 }

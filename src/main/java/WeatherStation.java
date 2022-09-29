@@ -2,7 +2,6 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class WeatherStation {
     
@@ -73,7 +72,6 @@ public class WeatherStation {
         return julianDay;
     }
 
-
     public void setMinTemp(double minTemp) {
         this.minTemp = minTemp;
     }
@@ -132,46 +130,42 @@ public class WeatherStation {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-    }
+    }    
     
-    //Potrebbe essere sostituita con dei valori standard che vengono randomizzati
-    
-    //Richiesta dei dati da inserire e settaggio dei parametri
-    public void stationFirstDatas() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("minTemp(°C):");
-        setMinTemp(Double.valueOf(scanner.nextLine()));
-        System.out.println("maxTemp(°C):");
-        setMaxTemp(Double.valueOf(scanner.nextLine()));
-        System.out.println("avgTemp(°C):");
-        setAvgTemp(Double.valueOf(scanner.nextLine()));
-        System.out.println("rain(mm):");
-        setRain(Double.valueOf(scanner.nextLine()));
-        System.out.println("rs(W/m^2):");
-        setRs(Double.valueOf(scanner.nextLine()));
-        System.out.println("rhMin(%):");
-        setRhMin(Double.valueOf(scanner.nextLine()));
-        System.out.println("rhMax(%):");
-        setRhMax(Double.valueOf(scanner.nextLine()));
-        System.out.println("wind(m/s)");
-        setWind(Double.valueOf(scanner.nextLine()));
-        System.out.println("altitude(m):");
-        setAltitudine(Double.valueOf(scanner.nextLine()));
-        System.out.println("latitude(m):");
-        setLatitudine(Double.valueOf(scanner.nextLine()));
-        System.out.println("date(DD-MM-YYYY)");
-        String dmy = scanner.nextLine();
-        setDate(dmy);
-        String[] parts = dmy.split("-");
+    //I dati possono essere richiesti per ognuno per inserirli manualmente
+    //in questo caso vengono messi fissi riferendoci alla riga 8 dell'excel
+    //inviato da Laura, per verificarne il funzionamento e sistemare i calcoli
+    public void stationDatasRegistration() {
+        setMinTemp(0.3);
+        setMaxTemp(1.3);
+        setAvgTemp(0.8);
+        setRain(3.8);
+        setRs(0.86);
+        setRhMin(90);
+        setRhMax(94);
+        setWind(0.4);
+        setAltitudine(232);
+        setLatitudine(0.785281808113982);
+        setDate("01-01-2021");
+        String[] parts = getDate().split("-");
         setJulianDay(Integer.valueOf(parts[0]));
         
+        System.out.println("minTemp(°C): " + getMinTemp());        
+        System.out.println("maxTemp(°C): " + getMaxTemp());        
+        System.out.println("avgTemp(°C): " + getAvgTemp());        
+        System.out.println("rain(mm): " + getRain());
+        System.out.println("rs(W/m^2): " + getRs());        
+        System.out.println("rhMin(%): " + getRhMin());
+        System.out.println("rhMax(%): " + getRhMax());
+        System.out.println("wind(m/s): " + getWind());
+        System.out.println("altitude(m): " + getAltitudine());
+        System.out.println("latitude(m): " + getLatitudine());
+        System.out.println("date(DD-MM-YYYY): " + getDate());
+        System.out.println("JulianDay: " + getJulianDay());        
     }
     
-    //Si potrebbe direttamente chiamare questo metodo una volta generati randomicamente i valori
-    //in modo da scriverli subito
-    
-    //Scrittura dei primi dati sul file
-    public void stationFirstRegistration() {
+    //Scrittura dei dati sul file
+    public void stationDatasReport() {
         StringBuilder firstRow = new StringBuilder();
         firstRow.append(this.minTemp).append(";")
                 .append(this.maxTemp).append(";")
@@ -184,7 +178,7 @@ public class WeatherStation {
                 .append(this.wind).append(";")
                 .append(this.altitudine).append(";")
                 .append(this.latitudine).append(";")
-                .append(this.date);
+                .append(this.date).append("\n");
         try(FileWriter writer = new FileWriter("WSreport.txt",true)) {
             writer.write(firstRow.toString());
         } catch (Exception e) {

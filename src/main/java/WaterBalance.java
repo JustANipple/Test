@@ -28,6 +28,6 @@ public class WaterBalance {
         
         long end = System.currentTimeMillis();
         
-        System.out.println("Time: " + (end-start) + " milliseconds");
+        System.out.println("\nTime: " + (end-start) + " milliseconds");
     }
 }

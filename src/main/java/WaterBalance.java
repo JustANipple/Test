@@ -1,30 +1,28 @@
 
 public class WaterBalance {
     
+    public static WeatherStation ws;
+    public static Field field;
+    public static FormulaManager forManager;
+    public static FileManager fileManager;
+    
     public static void main(String[] args) {
-           
-        //da utilizzare sulla piattaforma per far inserire SO o Corg
-        /*
-        System.out.println("1.SO\n2.Corg");
-        int choice = Integer.valueOf(scanner.nextLine());
-        double corg = 0;
-        while(true) {
-            if(choice == 1) {
-                System.out.println("SO:");
-                corg = Double.valueOf(scanner.nextLine()) / 1.725;
-                break;
-            } else if (choice == 2) {
-                System.out.println("Corg:");
-                corg = Double.valueOf(scanner.nextLine());
-                break;
-            }
-        }
-        */        
         
+        ws = new WeatherStation();
+        field = new Field();
+        WaterBalance.fileManager = new FileManager();
+        forManager = new FormulaManager(ws, field);
+        
+        //Test dei metodi e delle tempistiche
         long start = System.currentTimeMillis();
         
-        TextUI ui = new TextUI();
-        ui.start();
+        fileManager.constantFileSetup();
+        fileManager.constantDataRegistration();
+        fileManager.constantDataReport();
+        
+        
+        
+        System.out.println("\nHave a nice day ^^");
         
         long end = System.currentTimeMillis();
         

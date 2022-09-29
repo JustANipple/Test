@@ -8,17 +8,20 @@ public class FormulaManager {
     //dati forniti dalla stazione meteo:
         //minTemp, maxTemp, avgTemp, wind, altitudine, latitudine, julianDay, rs, rhMin, rhMax
     
-    private final Field field;
-    private final WeatherStation ws;
+    public Field field;
+    public WeatherStation ws;
     //compilo un'hashMap con tipo di calcolo e valore per evitare ripetizioni
-    private final HashMap<String,Double> calculations;
-    private FileManager file;
+    public HashMap<String,Double> calculations;
     
-    public FormulaManager(Field field, WeatherStation ws, FileManager file) {
+    public FormulaManager(WeatherStation ws, Field field) {
         this.field = field;
         this.ws = ws;
         this.calculations = new HashMap<>();
-        this.file = file;
+        
+    }
+    
+    public HashMap<String,Double> getCalculations() {
+        return this.calculations;
     }
     
     //creazione e calcolo delle costanti che avranno lo stesso valore per tutta l'andata del campo
@@ -85,6 +88,8 @@ public class FormulaManager {
         
     }
     
+    
+    
     //primo calcolo importante per il calcolo della ETe (evapotraspirazione effettiva)
     public double ks() {
         //Calcolo il Ks del bilancio idrico
@@ -144,7 +149,7 @@ public class FormulaManager {
         //SE(UMIDmm(gp)+rain(gp)+IRRIGutile(gp)-Ete(gp)<CIMmm(gp)) allora 0
         //altrimenti (UMIDmm(gp)+rain(gp)+IRRIGutile(gp)-Ete(gp)-CIMmm(gp))
         
-        FileManager file = new FileManager(ws);
+        
         double umidMm = file.getLast("UMIDmm");
         double rain = file.getLast("rain");
         double irrigUtile = file.getLast("IRRIGutile");
@@ -164,7 +169,6 @@ public class FormulaManager {
         //SE(UMIDmm(gp)+rain(gp)+IRRIGutile(gp)-ete(gp)<CCmm(gp)) allora 0
         //altrimenti (UMIDmm(gp)+rain(gp)+IRRIGutile(gp)-ete(gp)-RUSCmm-CCmm(gp))
         
-        FileManager file = new FileManager(ws);
         double umidMm = file.getLast("UMIDmm");
         double rain = file.getLast("rain");
         double irrigUtile = file.getLast("IRRIGutile");
@@ -513,7 +517,6 @@ public class FormulaManager {
         
         calculations.put(name, ete);
         
-        FileManager file = new FileManager(ws);
         file.write(calculations);
         
         return ete;

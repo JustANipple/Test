@@ -1,8 +1,4 @@
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 public class WeatherStation {
     
     private double minTemp;
@@ -107,82 +103,5 @@ public class WeatherStation {
     }
     public void setJulianDay(int julianDay) {
         this.julianDay = julianDay;
-    }
-    
-    //Creazione e intestazione del file per stazione meteo
-    public void stationFileSetup() {
-        try {
-          File myObj = new File("WSreport.txt");
-          if (myObj.createNewFile()) {
-            System.out.println("File created: " + myObj.getName());
-          } else {
-            System.out.println("File already exists.");
-          }
-        } catch (IOException e) {
-          System.out.println("Error: " + e.getMessage());
-        }
-        try(FileWriter writer = new FileWriter("WSreport.txt",true)) {
-            writer.write("minTemp" + "-" + "maxTemp" + "-" + "avgTemp" + "-" +
-                    "rain" + "-" + "rs" + "-" + 
-                    "rhMin" + "-" + "rhMin" + "-" + "rhMax" + "-" +
-                    "wind" + "-" + "altitude" + "-" + "latitude" + "-" +
-                    "date" + "\n");
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
     }    
-    
-    //I dati possono essere richiesti per ognuno per inserirli manualmente
-    //in questo caso vengono messi fissi riferendoci alla riga 8 dell'excel
-    //inviato da Laura, per verificarne il funzionamento e sistemare i calcoli
-    public void stationDatasRegistration() {
-        setMinTemp(0.3);
-        setMaxTemp(1.3);
-        setAvgTemp(0.8);
-        setRain(3.8);
-        setRs(0.86);
-        setRhMin(90);
-        setRhMax(94);
-        setWind(0.4);
-        setAltitudine(232);
-        setLatitudine(0.785281808113982);
-        setDate("01-01-2021");
-        String[] parts = getDate().split("-");
-        setJulianDay(Integer.valueOf(parts[0]));
-        
-        System.out.println("minTemp(°C): " + getMinTemp());        
-        System.out.println("maxTemp(°C): " + getMaxTemp());        
-        System.out.println("avgTemp(°C): " + getAvgTemp());        
-        System.out.println("rain(mm): " + getRain());
-        System.out.println("rs(W/m^2): " + getRs());        
-        System.out.println("rhMin(%): " + getRhMin());
-        System.out.println("rhMax(%): " + getRhMax());
-        System.out.println("wind(m/s): " + getWind());
-        System.out.println("altitude(m): " + getAltitudine());
-        System.out.println("latitude(m): " + getLatitudine());
-        System.out.println("date(DD-MM-YYYY): " + getDate());
-        System.out.println("JulianDay: " + getJulianDay());        
-    }
-    
-    //Scrittura dei dati sul file
-    public void stationDatasReport() {
-        StringBuilder firstRow = new StringBuilder();
-        firstRow.append(this.minTemp).append(";")
-                .append(this.maxTemp).append(";")
-                .append(this.avgTemp).append(";")
-                .append(this.rain).append(";")
-                .append(this.rs).append(";")
-                .append(this.rhMin).append(";")
-                .append(this.rhMin).append(";")
-                .append(this.rhMax).append(";")
-                .append(this.wind).append(";")
-                .append(this.altitudine).append(";")
-                .append(this.latitudine).append(";")
-                .append(this.date).append("\n");
-        try(FileWriter writer = new FileWriter("WSreport.txt",true)) {
-            writer.write(firstRow.toString());
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
 }

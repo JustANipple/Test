@@ -1,109 +1,192 @@
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
 
-public class FileManager {
+public class FileManager{
     
-    private final WeatherStation ws;
+    public FormulaManager manager;
     
-    public FileManager(WeatherStation ws) {
-        this.ws = ws;
+    public FileManager() {
+        this.manager = WaterBalance.forManager;
     }
     
-    //Prende il valore dell'ultimo giorno.
-    //Conviene utilizzare il codice che già c'è, salvando i dati del giorno precedente
-    //in un oggetto WeatherStation e poi scrivere un nuovo dato, in modo da avere già il last day
-    public ArrayList<Double> lastDayFile() {
-        ArrayList<Double> nums = new ArrayList<>();
-        //creazione o controllo del file
+    //Creazione e intestazione del file per stazione meteo
+    public void stationFileSetup() {
         try {
-            File myFile = new File("Report");
-            if(myFile.createNewFile()) {
-                System.out.println("File created: " + myFile.getName());
-            } else {
-                System.out.println("File already exists");
-            }
+          File myObj = new File("WSreport.txt");
+          if (myObj.createNewFile()) {
+            System.out.println("File created: " + myObj.getName());
+          } else {
+            System.out.println("File already exists.");
+          }
         } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
+          System.out.println("Error: " + e.getMessage());
         }
-        
-        //lettura e salvataggio dell'ultima riga del file
-        String row = "";
-        try (Scanner scanner = new Scanner(Paths.get("Report"))) {
-            while(scanner.hasNextLine()) {
-                row = scanner.nextLine();
-            }
+        try(FileWriter writer = new FileWriter("WSreport.txt",true)) {
+            writer.write("minTemp" + "-" + "maxTemp" + "-" + "avgTemp" + "-" +
+                    "rain" + "-" + "rs" + "-" + 
+                    "rhMin" + "-" + "rhMin" + "-" + "rhMax" + "-" +
+                    "wind" + "-" + "altitude" + "-" + "latitude" + "-" +
+                    "date" + "\n");
         } catch (Exception e) {
-            System.out.println("Error: " + e);
-        }
-        String[] values = row.split(";");
-        nums.add(Double.valueOf(values[0]));
-        nums.add(Double.valueOf(values[1]));
-        nums.add(Double.valueOf(values[2]));
-        nums.add(Double.valueOf(values[3]));
-        nums.add(Double.valueOf(values[4]));
-        nums.add(Double.valueOf(values[5]));
-        
-        return nums;
-    }
-    
-    public double getLast(String data) {
-        ArrayList<Double> nums = lastDayFile();
-        switch (data) {
-           case "rain":
-               return nums.get(0);
-           case "ete":
-               return nums.get(1);
-           case "CCmm":
-               return nums.get(2);
-           case "CIMmm":
-               return nums.get(3);
-           case "UMIDmm":
-               return nums.get(4);
-           case "IRRIGutile":
-               return nums.get(5);
-           default:
-               return 0;
-        } 
-    }
-    
-    public void write(HashMap calculations) {
-        //creazione o controllo del file
-        try {
-            File myFile = new File("Report");
-            if(myFile.createNewFile()) {
-                System.out.println("File created: " + myFile.getName());
-            } else {
-                System.out.println("File already exists");
-            }
-        } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+    
+    //I dati possono essere richiesti per ognuno per inserirli manualmente
+    //in questo caso vengono messi fissi riferendoci alla riga 8 dell'excel
+    //inviato da Laura, per verificarne il funzionamento e sistemare i calcoli
+    public void stationDatasRegistration() {
+        manager.ws.getAvgTemp();
+        manager.ws.setMinTemp(0.3);
+        manager.ws.setMaxTemp(1.3);
+        manager.ws.setAvgTemp(0.8);
+        manager.ws.setRain(3.8);
+        manager.ws.setRs(0.86);
+        manager.ws.setRhMin(90);
+        manager.ws.setRhMax(94);
+        manager.ws.setWind(0.4);
+        manager.ws.setAltitudine(232);
+        manager.ws.setLatitudine(0.785281808113982);
+        manager.ws.setDate("01-01-2021");
+        String[] parts = manager.ws.getDate().split("-");
+        manager.ws.setJulianDay(Integer.valueOf(parts[0]));
         
-        //scrittura del file di Report
+        System.out.println("minTemp(°C): " + manager.ws.getMinTemp());        
+        System.out.println("maxTemp(°C): " + manager.ws.getMaxTemp());        
+        System.out.println("avgTemp(°C): " + manager.ws.getAvgTemp());        
+        System.out.println("rain(mm): " + manager.ws.getRain());
+        System.out.println("rs(W/m^2): " + manager.ws.getRs());        
+        System.out.println("rhMin(%): " + manager.ws.getRhMin());
+        System.out.println("rhMax(%): " + manager.ws.getRhMax());
+        System.out.println("wind(m/s): " + manager.ws.getWind());
+        System.out.println("altitude(m): " + manager.ws.getAltitudine());
+        System.out.println("latitude(m): " + manager.ws.getLatitudine());
+        System.out.println("date(DD-MM-YYYY): " + manager.ws.getDate());
+        System.out.println("JulianDay: " + manager.ws.getJulianDay());        
+    }
+    
+    //Scrittura dei dati sul file
+    public void stationDatasReport() {
+        StringBuilder firstRow = new StringBuilder();
+        firstRow.append(manager.ws.getMinTemp()).append(";")
+                .append(manager.ws.getMaxTemp()).append(";")
+                .append(manager.ws.getAvgTemp()).append(";")
+                .append(manager.ws.getRain()).append(";")
+                .append(manager.ws.getRs()).append(";")
+                .append(manager.ws.getRhMin()).append(";")
+                .append(manager.ws.getRhMax()).append(";")
+                .append(manager.ws.getAltitudine()).append(";")
+                .append(manager.ws.getAltitudine()).append(";")
+                .append(manager.ws.getLatitudine()).append(";")
+                .append(manager.ws.getDate()).append("\n");
+        try(FileWriter writer = new FileWriter("WSreport.txt",true)) {
+            writer.write(firstRow.toString());
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    
+    //Creazione e intestazione del file di campo
+    public void fieldFileSetup() {
         try {
-            PrintWriter output = new PrintWriter(new FileWriter ("Report", true));
-            StringBuilder row = new StringBuilder();
-            row.append(ws.getRain())
-                    .append(";")
-                    .append(calculations.get("ete"))
-                    .append(";")
-                    .append(calculations.get("CCmm"))
-                    .append(";")
-                    .append(calculations.get("CIMmm"))
-                    .append(";")
-                    .append(calculations.get("UMIDmm"))
-                    .append(";")
-                    .append(calculations.get("IRRIGutile"));
-            output.append(row.toString());
-            output.append("\n");
-            output.close();
+          File myObj = new File("FieldReport.txt");
+          if (myObj.createNewFile()) {
+            System.out.println("File created: " + myObj.getName());
+          } else {
+            System.out.println("File already exists.");
+          }
         } catch (IOException e) {
+          System.out.println("Error: " + e.getMessage());
+        }
+        try(FileWriter writer = new FileWriter("FieldReport.txt",true)) {
+            writer.write("sabbia(%)" + "-" + "argilla(%)" + "-" +
+                    "carbone organico/corg(%)" + "-" + "prof(mm)" + "-" + "kc" + "\n");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    
+    //Richiesta dei dati da inserire e settaggio dei parametri
+    //Questi valori vengono richiesti una volta per campo, in quanto le costanti
+    //del suolo rimangono invariate per tutto il periodo attivo
+    public void fieldDatasRegistration() {
+        manager.field.setSabbia(31.2);
+        manager.field.setArgilla(50.1);
+        manager.field.setCorg(0.79);
+        manager.field.setProfmm(150);
+        manager.field.setKc(0.3);
+        
+        System.out.println("sabbia(%): " + manager.field.getSabbia());
+        System.out.println("argilla(%): " + manager.field.getArgilla());
+        System.out.println("carbonio organico/corg(%): " + manager.field.getCorg());
+        System.out.println("prof(mm): " + manager.field.getProfmm());
+        System.out.println("kc: " + manager.field.getKc());
+    }
+    
+    //Scrittura dei primi dati sul file
+    public void fieldDatasReport() {
+        StringBuilder firstRow = new StringBuilder();
+        firstRow.append(manager.field.getSabbia()).append(";")
+                .append(manager.field.getArgilla()).append(";")
+                .append(manager.field.getCorg()).append(";")
+                .append(manager.field.getProfmm()).append(";")
+                .append(manager.field.getKc()).append("\n");
+        try(FileWriter writer = new FileWriter("FieldReport.txt",true)) {
+            writer.write(firstRow.toString());
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    
+    //Creazione e intestazione del file contenente le costanti del suolo
+    public void constantFileSetup() {
+        try {
+          File myObj = new File("ConsReport.txt");
+          if (myObj.createNewFile()) {
+            System.out.println("File created: " + myObj.getName());
+          } else {
+            System.out.println("File already exists.");
+          }
+        } catch (IOException e) {
+          System.out.println("Error: " + e.getMessage());
+        }
+        try(FileWriter writer = new FileWriter("ConsReport.txt",true)) {
+            writer.write("PROF mm" + "PA ");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    
+    //Scrittura a console dei valori calcolati per le costanti
+    public void constantDataRegistration() {
+        System.out.println("PROFmm (mm): " + manager.calculations.get("PROFmm"));
+        System.out.println("PA (%v/v): " + manager.calculations.get("PAperc"));
+        System.out.println("Lir (%v/v): " + manager.calculations.get("LirPerc"));
+        System.out.println("CC (%v/v): " + manager.calculations.get("CCperc"));
+        System.out.println("CIM (%v/v): " + manager.calculations.get("CIMper"));
+        System.out.println("PAmm (mm): " + manager.calculations.get("PAmm"));
+        System.out.println("Lirmm (mm): " + manager.calculations.get("Lirmm"));
+        System.out.println("CCmm (mm): " + manager.calculations.get("CCmm"));
+        System.out.println("CIMmm (mm): " + manager.calculations.get("CIMmm"));     
+    }
+    
+    //Scrittura su file delle costanti del suolo
+    public void constantDataReport() {
+        StringBuilder firstRow = new StringBuilder();
+        firstRow.append(manager.calculations.get("PROFmm")).append(";")
+                .append(manager.calculations.get("PAperc")).append(";")
+                .append(manager.calculations.get("LirPerc")).append(";")
+                .append(manager.calculations.get("CCperc")).append(";")
+                .append(manager.calculations.get("CIMper")).append(";")
+                .append(manager.calculations.get("PAmm")).append(";")
+                .append(manager.calculations.get("Lirmm")).append(";")
+                .append(manager.calculations.get("CCmm")).append(";")
+                .append(manager.calculations.get("CIMmm")).append("\n");
+        try(FileWriter writer = new FileWriter("ConsReport.txt",true)) {
+            writer.write(firstRow.toString());
+        } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
     }

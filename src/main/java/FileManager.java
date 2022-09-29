@@ -3,9 +3,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+    //Creare un HashMap dove metto tutti i valori dei file dell'ultimo giorno
+    //in modo da poter accedere tranquillamente a qualsiasi valore poi dal
+    //formulaManager richiamando la key del valore
+
 public class FileManager{
     
     public FormulaManager manager;
+    
     
     public FileManager() {
         this.manager = WaterBalance.forManager;

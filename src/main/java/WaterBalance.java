@@ -20,10 +20,6 @@ public class WaterBalance {
         fileManager.constantDataRegistration();
         fileManager.constantDataReport();
         
-        
-        
-        System.out.println("\nHave a nice day ^^");
-        
         long end = System.currentTimeMillis();
         
         System.out.println("\nTime: " + (end-start) + " milliseconds");

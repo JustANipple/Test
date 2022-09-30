@@ -3,17 +3,17 @@ quindi va creata la parte di calcolo che mette in lista queste variabili per ave
 senza doverle ricalcolare (file in Field con le costanti del suolo)
 
 
-irrigutile mm va messo a 10mm ogni volta che il ks va in stress (<0.7) DONE
-ks dipende da Lir e umidvol (riferendoci al giorno prima in UMIDmm) DONE
-Quindi va creata una lettura dei dati del giorno prima per Ete, Umidmm e Irrigutile DONE
-rusc e perc si riferiscono al giorno prima DONE
-Quindi va creata una lettura dei dati del giorno prima per Ete, CIMmm e Umidmm (rusc e perc) DONE
-Il file di lettura sarà quindi composto da Ete, CCmm, CIMmm, Umidmm e Irrigutile DONE
-corg = carbonio organico DONE
-rivedere conversione tra SO (sostanza organica) e Corg (carbonio organico) DONE
-coefficiente: 1.72 per la conversione DONE
-DensAppar = da calcolare attraverso la formula di Laura DONE
-Approssimazione non accettata, bisogna individuare dove viene approssimato DONE
+irrigutile mm va messo a 10mm ogni volta che il ks va in stress (<0.7)
+
+Ks dipende da:
+PERCmm si calcola con UMIDmm(gp), Ete(gp), pioggia(gp) e irrigutile(gp)
+RUSCmm si calcola con UMIDmm(gp), Ete(gp), pioggia(gp) e irrigutile(gp)
+UMIDmm si calcola con UMIDmm(gp), Ete(gp), pioggia(gp) e irrigutile(gp)
+
+corg = carbonio organico
+rivedere conversione tra SO (sostanza organica) e Corg (carbonio organico)
+coefficiente: 1.72 per la conversione
+DensAppar = da calcolare attraverso la formula di Laura
 
 irrigutile da verificare con Raffaele
 
@@ -37,3 +37,4 @@ PA = punto di appassimento permanente OK
 CC = capacità di campo (valore stabile) OK
 CIM = capacità idrica massima OK
 Lir = limite intervento irriguo OK
+Approssimazione non accettata, bisogna individuare dove viene approssimato

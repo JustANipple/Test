@@ -1,2 +1,4 @@
 sabbia(%)-argilla(%)-carbone organico/corg(%)-prof(mm)-kc
 31.2;50.1;0.79;150.0;0.3
+sabbia(%)-argilla(%)-carbone organico/corg(%)-prof(mm)-kc
+31.2;50.1;0.79;150.0;0.3

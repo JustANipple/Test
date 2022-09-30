@@ -2,7 +2,7 @@
 import java.util.HashMap;
 
 public class FormulaManager {
-        
+    
     //dati forniti dalla creazione del campo:
         //sabbia, argilla, corg, profmm, kc
     //dati forniti dalla stazione meteo:
@@ -12,16 +12,15 @@ public class FormulaManager {
     public WeatherStation ws;
     //compilo un'hashMap con tipo di calcolo e valore per evitare ripetizioni
     public HashMap<String,Double> calculations;
+    public HashMap<String,Double> lastDay;
     
     public FormulaManager(WeatherStation ws, Field field) {
+        
         this.field = field;
         this.ws = ws;
         this.calculations = new HashMap<>();
+        this.lastDay = new HashMap<>();
         
-    }
-    
-    public HashMap<String,Double> getCalculations() {
-        return this.calculations;
     }
     
     //creazione e calcolo delle costanti che avranno lo stesso valore per tutta l'andata del campo
@@ -29,7 +28,6 @@ public class FormulaManager {
     //PA(punto appassimento),Lir(limite intervento irriguo),CC(capacità campo),CIM(capacità idrica max)
     public void constant() {
         //PROFmm
-        System.out.println("PROFmm: " + field.getProfmm());
         calculations.put("PROFmm", field.getProfmm());
         
         //PApercVv
@@ -37,7 +35,6 @@ public class FormulaManager {
         // + (0.0122*corg%/0.67) - (0.0182*densAppar) * 100)
         double paPerc = (0.0854-(0.0004*field.getSabbia())+(0.0044*field.getArgilla())+
                 (0.0122*field.getCorg()/0.67)-(0.0182*densAppar())) * 100;
-        System.out.println("PAperc: " + paPerc);
         calculations.put("PAperc", paPerc);
         
         //CCpercVv
@@ -45,7 +42,6 @@ public class FormulaManager {
         //CC v/v = 0.3486-(0.0018*sabbia%)+(0.0039*argilla%)+(0.0228*corg%/0.67)-(0.0738*densAppar)
         double ccPerc = (0.3486-(0.0018*field.getSabbia())+(0.0039*field.getArgilla())+
                 (0.0228*field.getCorg()/0.67)-(0.0738*densAppar())) * 100;
-        System.out.println("CCperc: " + ccPerc);
         calculations.put("CCperc", ccPerc);
         
         //LirPercVv
@@ -60,30 +56,24 @@ public class FormulaManager {
         //percentuale di acqua disponibile massima
         //pomodoro: 40, patata: 35, cipolla: 30
         double lirPercVv = (ccVv - (admPerc * 30 / 100)) * 100;
-        System.out.println("LirPercVv: " + lirPercVv);
         calculations.put("LirPerc", lirPercVv);
         
         //CIMPercVv
         //1-(DensAppar/2,65) * 100
-        System.out.println("CIMper: " + (1-(densAppar() / 2.65)) * 100);
         calculations.put("CIMper", (1-(densAppar() / 2.65)) * 100);
         
         //tutti i valori in mm vanno moltiplicati per la PROFmm e divisi per 100 (perc * PROFmm / 100)
         
         //PAmm
-        System.out.println("PAmm: " + paPerc*calculations.get("PROFmm")/100);
         calculations.put("PAmm" , (paPerc*calculations.get("PROFmm")/100));
         
         //CCmm
-        System.out.println("CCmm: " + ccPerc * calculations.get("PROFmm") / 100);
         calculations.put("CCmm", ccPerc * calculations.get("PROFmm") / 100); 
         
         //Lirmm
-        System.out.println("Lirmm: " + calculations.get("LirPerc") * calculations.get("PROFmm")/100);
         calculations.put("Lirmm",calculations.get("LirPerc") * calculations.get("PROFmm")/100);               
         
         //CIMmm
-        System.out.println("CIMmm: " + calculations.get("CIMper") * calculations.get("PROFmm") / 100);
         calculations.put("CIMmm", calculations.get("CIMper") * calculations.get("PROFmm") / 100);
         
     }
@@ -148,7 +138,6 @@ public class FormulaManager {
         //gp = giorno precedente
         //SE(UMIDmm(gp)+rain(gp)+IRRIGutile(gp)-Ete(gp)<CIMmm(gp)) allora 0
         //altrimenti (UMIDmm(gp)+rain(gp)+IRRIGutile(gp)-Ete(gp)-CIMmm(gp))
-        
         
         double umidMm = file.getLast("UMIDmm");
         double rain = file.getLast("rain");
@@ -516,8 +505,6 @@ public class FormulaManager {
         double ete = etc() * ks();
         
         calculations.put(name, ete);
-        
-        file.write(calculations);
         
         return ete;
     }

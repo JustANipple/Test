@@ -43,7 +43,6 @@ public class FileManager{
     //in questo caso vengono messi fissi riferendoci alla riga 8 dell'excel
     //inviato da Laura, per verificarne il funzionamento e sistemare i calcoli
     public void stationDatasRegistration() {
-        manager.ws.getAvgTemp();
         manager.ws.setMinTemp(0.3);
         manager.ws.setMaxTemp(1.3);
         manager.ws.setAvgTemp(0.8);
@@ -69,7 +68,8 @@ public class FileManager{
         System.out.println("altitude(m): " + manager.ws.getAltitudine());
         System.out.println("latitude(m): " + manager.ws.getLatitudine());
         System.out.println("date(DD-MM-YYYY): " + manager.ws.getDate());
-        System.out.println("JulianDay: " + manager.ws.getJulianDay());        
+        System.out.println("JulianDay: " + manager.ws.getJulianDay()); 
+        System.out.println("");
     }
     
     //Scrittura dei dati sul file
@@ -128,6 +128,7 @@ public class FileManager{
         System.out.println("carbonio organico/corg(%): " + manager.field.getCorg());
         System.out.println("prof(mm): " + manager.field.getProfmm());
         System.out.println("kc: " + manager.field.getKc());
+        System.out.println("");
     }
     
     //Scrittura dei primi dati sul file
@@ -158,7 +159,9 @@ public class FileManager{
           System.out.println("Error: " + e.getMessage());
         }
         try(FileWriter writer = new FileWriter("ConsReport.txt",true)) {
-            writer.write("PROF mm" + "PA ");
+            writer.write("PROF mm" + " ; " + "PA %v/v" + " ; " + "Lir %v/v" + " ; " +
+                    "CC %v/v" + " ; " + "CIM %v/v" + " ; " + "PAmm" + " ; " +
+                    "Lirmm" + " ; " + "CCmm" + " ; " + "CIMmm" + "\n");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }

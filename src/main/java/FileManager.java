@@ -11,12 +11,11 @@ public class FileManager{
     
     public FormulaManager manager;
     
-    
     public FileManager() {
         this.manager = WaterBalance.forManager;
     }
     
-    //Creazione e intestazione del file per stazione meteo
+    //Creazione del file per stazione meteo
     public void stationFileSetup() {
         try {
           File myObj = new File("WSreport.txt");
@@ -27,15 +26,6 @@ public class FileManager{
           }
         } catch (IOException e) {
           System.out.println("Error: " + e.getMessage());
-        }
-        try(FileWriter writer = new FileWriter("WSreport.txt",true)) {
-            writer.write("minTemp" + "-" + "maxTemp" + "-" + "avgTemp" + "-" +
-                    "rain" + "-" + "rs" + "-" + 
-                    "rhMin" + "-" + "rhMin" + "-" + "rhMax" + "-" +
-                    "wind" + "-" + "altitude" + "-" + "latitude" + "-" +
-                    "date" + "\n");
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
         }
     }
     
@@ -56,38 +46,24 @@ public class FileManager{
         manager.ws.setDate("01-01-2021");
         String[] parts = manager.ws.getDate().split("-");
         manager.ws.setJulianDay(Integer.valueOf(parts[0]));
-        
-        System.out.println("minTemp(°C): " + manager.ws.getMinTemp());        
-        System.out.println("maxTemp(°C): " + manager.ws.getMaxTemp());        
-        System.out.println("avgTemp(°C): " + manager.ws.getAvgTemp());        
-        System.out.println("rain(mm): " + manager.ws.getRain());
-        System.out.println("rs(W/m^2): " + manager.ws.getRs());        
-        System.out.println("rhMin(%): " + manager.ws.getRhMin());
-        System.out.println("rhMax(%): " + manager.ws.getRhMax());
-        System.out.println("wind(m/s): " + manager.ws.getWind());
-        System.out.println("altitude(m): " + manager.ws.getAltitudine());
-        System.out.println("latitude(m): " + manager.ws.getLatitudine());
-        System.out.println("date(DD-MM-YYYY): " + manager.ws.getDate());
-        System.out.println("JulianDay: " + manager.ws.getJulianDay()); 
-        System.out.println("");
     }
     
     //Scrittura dei dati sul file
-    public void stationDatasReport() {
-        StringBuilder firstRow = new StringBuilder();
-        firstRow.append(manager.ws.getMinTemp()).append(";")
-                .append(manager.ws.getMaxTemp()).append(";")
-                .append(manager.ws.getAvgTemp()).append(";")
-                .append(manager.ws.getRain()).append(";")
-                .append(manager.ws.getRs()).append(";")
-                .append(manager.ws.getRhMin()).append(";")
-                .append(manager.ws.getRhMax()).append(";")
-                .append(manager.ws.getAltitudine()).append(";")
-                .append(manager.ws.getAltitudine()).append(";")
-                .append(manager.ws.getLatitudine()).append(";")
-                .append(manager.ws.getDate()).append("\n");
+    public void stationDatasReport() {        
         try(FileWriter writer = new FileWriter("WSreport.txt",true)) {
-            writer.write(firstRow.toString());
+            writer.write("minTemp(C): " + manager.ws.getMinTemp() + "\n" +
+                        "maxTemp(C): " + manager.ws.getMaxTemp() + "\n" +
+                        "avgTemp(C): " + manager.ws.getAvgTemp() + "\n" +
+                        "rain(mm): " + manager.ws.getRain() + "\n" +
+                        "rs(W/m^2): " + manager.ws.getRs() + "\n" +
+                        "rhMin(%): " + manager.ws.getRhMin() + "\n" +
+                        "rhMax(%): " + manager.ws.getRhMax() + "\n" +
+                        "wind(m/s): " + manager.ws.getWind() + "\n" +
+                        "altitude(m): " + manager.ws.getAltitudine() + "\n" +
+                        "latitude(m): " + manager.ws.getLatitudine() + "\n" +
+                        "date(DD-MM-YYYY): " + manager.ws.getDate() + "\n" +
+                        "JulianDay: " + manager.ws.getJulianDay() + "\n" +
+                        "\n");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -105,12 +81,6 @@ public class FileManager{
         } catch (IOException e) {
           System.out.println("Error: " + e.getMessage());
         }
-        try(FileWriter writer = new FileWriter("FieldReport.txt",true)) {
-            writer.write("sabbia(%)" + "-" + "argilla(%)" + "-" +
-                    "carbone organico/corg(%)" + "-" + "prof(mm)" + "-" + "kc" + "\n");
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
     }
     
     //Richiesta dei dati da inserire e settaggio dei parametri
@@ -122,25 +92,17 @@ public class FileManager{
         manager.field.setCorg(0.79);
         manager.field.setProfmm(150);
         manager.field.setKc(0.3);
-        
-        System.out.println("sabbia(%): " + manager.field.getSabbia());
-        System.out.println("argilla(%): " + manager.field.getArgilla());
-        System.out.println("carbonio organico/corg(%): " + manager.field.getCorg());
-        System.out.println("prof(mm): " + manager.field.getProfmm());
-        System.out.println("kc: " + manager.field.getKc());
-        System.out.println("");
     }
     
     //Scrittura dei primi dati sul file
     public void fieldDatasReport() {
-        StringBuilder firstRow = new StringBuilder();
-        firstRow.append(manager.field.getSabbia()).append(";")
-                .append(manager.field.getArgilla()).append(";")
-                .append(manager.field.getCorg()).append(";")
-                .append(manager.field.getProfmm()).append(";")
-                .append(manager.field.getKc()).append("\n");
         try(FileWriter writer = new FileWriter("FieldReport.txt",true)) {
-            writer.write(firstRow.toString());
+            writer.write("sabbia(%): " + manager.field.getSabbia() + "\n" +
+                        "argilla(%): " + manager.field.getArgilla() + "\n" +
+                        "carbonio organico/corg(%): " + manager.field.getCorg() + "\n" +
+                        "prof(mm): " + manager.field.getProfmm() + "\n" +
+                        "kc: " + manager.field.getKc() + "\n" +
+                        "\n");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -158,42 +120,23 @@ public class FileManager{
         } catch (IOException e) {
           System.out.println("Error: " + e.getMessage());
         }
-        try(FileWriter writer = new FileWriter("ConsReport.txt",true)) {
-            writer.write("PROF mm" + " ; " + "PA %v/v" + " ; " + "Lir %v/v" + " ; " +
-                    "CC %v/v" + " ; " + "CIM %v/v" + " ; " + "PAmm" + " ; " +
-                    "Lirmm" + " ; " + "CCmm" + " ; " + "CIMmm" + "\n");
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
     }
     
-    //Scrittura a console dei valori calcolati per le costanti
-    public void constantDataRegistration() {
-        System.out.println("PROFmm (mm): " + manager.calculations.get("PROFmm"));
-        System.out.println("PA (%v/v): " + manager.calculations.get("PAperc"));
-        System.out.println("Lir (%v/v): " + manager.calculations.get("LirPerc"));
-        System.out.println("CC (%v/v): " + manager.calculations.get("CCperc"));
-        System.out.println("CIM (%v/v): " + manager.calculations.get("CIMper"));
-        System.out.println("PAmm (mm): " + manager.calculations.get("PAmm"));
-        System.out.println("Lirmm (mm): " + manager.calculations.get("Lirmm"));
-        System.out.println("CCmm (mm): " + manager.calculations.get("CCmm"));
-        System.out.println("CIMmm (mm): " + manager.calculations.get("CIMmm"));     
-    }
+    //non serve un constantDatasRegistration perchè i valori vengono tutti calcolati
     
     //Scrittura su file delle costanti del suolo
-    public void constantDataReport() {
-        StringBuilder firstRow = new StringBuilder();
-        firstRow.append(manager.calculations.get("PROFmm")).append(";")
-                .append(manager.calculations.get("PAperc")).append(";")
-                .append(manager.calculations.get("LirPerc")).append(";")
-                .append(manager.calculations.get("CCperc")).append(";")
-                .append(manager.calculations.get("CIMper")).append(";")
-                .append(manager.calculations.get("PAmm")).append(";")
-                .append(manager.calculations.get("Lirmm")).append(";")
-                .append(manager.calculations.get("CCmm")).append(";")
-                .append(manager.calculations.get("CIMmm")).append("\n");
+    public void constantDatasReport() {
         try(FileWriter writer = new FileWriter("ConsReport.txt",true)) {
-            writer.write(firstRow.toString());
+            writer.write("PROFmm (mm): " + manager.calculations.get("PROFmm") + "\n" +
+                        "PA (%v/v): " + manager.calculations.get("PAperc") + "\n" +
+                        "Lir (%v/v): " + manager.calculations.get("LirPerc") + "\n" +
+                        "CC (%v/v): " + manager.calculations.get("CCperc") + "\n" +
+                        "CIM (%v/v): " + manager.calculations.get("CIMper") + "\n" +
+                        "PAmm (mm): " + manager.calculations.get("PAmm") + "\n" +
+                        "Lirmm (mm): " + manager.calculations.get("Lirmm") + "\n" +
+                        "CCmm (mm): " + manager.calculations.get("CCmm") + "\n" +
+                        "CIMmm (mm): " + manager.calculations.get("CIMmm") + "\n" +
+                        "\n");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }

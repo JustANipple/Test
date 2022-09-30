@@ -31,8 +31,7 @@ public class WaterBalance {
         
         //Costanti del suolo
         fileManager.constantFileSetup();
-        fileManager.constantDataRegistration();
-        fileManager.constantDataReport();
+        fileManager.constantDatasReport();
         
         long end = System.currentTimeMillis();
         

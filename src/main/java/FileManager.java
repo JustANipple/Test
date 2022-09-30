@@ -141,4 +141,10 @@ public class FileManager{
             System.out.println("Error: " + e.getMessage());
         }
     }
+    
+    public void calculationsReport() {
+        for(String key : manager.calculations.keySet()) {
+            System.out.println(key + " " + manager.calculations.get(key));
+        }
+    }
 }

@@ -1,8 +1,3 @@
-Da PROFmm a CIMmm sono tutte costanti che non cambiano nel tempo (non vanno ricalcolate)
-quindi va creata la parte di calcolo che mette in lista queste variabili per averle accessibili
-senza doverle ricalcolare (file in Field con le costanti del suolo)
-
-
 irrigutile mm va messo a 10mm ogni volta che il ks va in stress (<0.7)
 
 Ks dipende da:
@@ -38,3 +33,4 @@ CC = capacità di campo (valore stabile) OK
 CIM = capacità idrica massima OK
 Lir = limite intervento irriguo OK
 Approssimazione non accettata, bisogna individuare dove viene approssimato
+creare la parte di calcolo per le costanti del suolo (da PROFmm a CIMmm dell'excel)

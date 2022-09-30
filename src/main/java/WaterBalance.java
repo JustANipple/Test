@@ -33,6 +33,8 @@ public class WaterBalance {
         fileManager.constantFileSetup();
         fileManager.constantDatasReport();
         
+        fileManager.calculationsReport();
+        
         long end = System.currentTimeMillis();
         
         System.out.println("\nTime: " + (end-start) + " milliseconds");

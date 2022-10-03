@@ -171,7 +171,22 @@ public class FileManager{
         return value;
     }
     
-    public void CalculationsReport() {
+    //Creazione del file per il contenimento dei calcoli
+    public void calculationFileSetup() {
+        try {
+          File myObj = new File("Calculations.txt");
+          if (myObj.createNewFile()) {
+            System.out.println("File created: " + myObj.getName());
+          } else {
+            System.out.println("File already exists.");
+          }
+        } catch (IOException e) {
+          System.out.println("Error: " + e.getMessage());
+        }
+    }
+    
+    //Scrittura del calcoli su file
+    public void calculationsReport() {
         try(FileWriter writer = new FileWriter("Calculations.txt",true)) {
             for(String key : this.manager.calculations.keySet()) {
                 writer.write(key + ": " + this.manager.calculations.get(key) + "\n");

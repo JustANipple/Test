@@ -16,6 +16,15 @@ public class WaterBalance {
         //Test dei metodi e delle tempistiche
         long start = System.currentTimeMillis();
         
+        //Guida per l'utilizzo del programma:
+        //1. fare il setup del file del campo, stazione meteo, costanti e calcoli
+        //2. registrare e scrivere i dati del campo una sola volta
+        //3. registrare i dati della stazione meteo, una volta per giorno
+        //4. avviare la funzione per il calcolo delle costanti e inserirle su file
+        //5. calcolare ete
+        //6. inserire i calcoli fatti per ete in calculations
+        //7. richiedere i valori della ws e ripartire dal punto 5
+        
         //Stazione meteo
         fileManager.stationFileSetup();
         fileManager.stationDatasRegistration();
@@ -26,16 +35,17 @@ public class WaterBalance {
         fileManager.fieldDatasRegistration();
         //fileManager.fieldDatasReport();
         
-        //Chiamata funziona costanti per registrarle e salvarle su file
-        forManager.constant();
-        
         //Costanti del suolo
+        //Chiamata funzione costanti per registrarle e salvarle su file
+        forManager.constant();
         fileManager.constantFileSetup();
         //fileManager.constantDatasReport();
         
         forManager.ete();
-        fileManager.CalculationsReport();
         
+        //Risultati delle formule
+        fileManager.calculationFileSetup();
+        fileManager.calculationsReport();        
         
         long end = System.currentTimeMillis();
         

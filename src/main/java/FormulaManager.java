@@ -12,14 +12,12 @@ public class FormulaManager {
     public WeatherStation ws;
     //compilo un'hashMap con tipo di calcolo e valore per evitare ripetizioni
     public HashMap<String,Double> calculations;
-    public HashMap<String,Double> lastDay;
     
     public FormulaManager(WeatherStation ws, Field field) {
         
         this.field = field;
         this.ws = ws;
         this.calculations = new HashMap<>();
-        this.lastDay = new HashMap<>();
         
     }
     
@@ -125,8 +123,11 @@ public class FormulaManager {
         //gp = giorno precedente
         //UMIDmm(gp)+rain(gp)+IRRIGutile(gp)-ete(gp)-PERCmm-RUSCmm
         
-        double umidMm = file.getLast("UMIDmm") + file.getLast("rain") + file.getLast("IRRIGutile") + 
-                file.getLast("ete") - percMm() - ruscMm();
+        double umidMm = WaterBalance.fileManager.valueFromFile("UMIDmm") +
+                        WaterBalance.fileManager.valueFromFile("rain") +
+                        WaterBalance.fileManager.valueFromFile("IRRIGutile") + 
+                        WaterBalance.fileManager.valueFromFile("Ete") - 
+                        percMm() - ruscMm();
         
         calculations.put(name,umidMm);
         
@@ -139,11 +140,11 @@ public class FormulaManager {
         //SE(UMIDmm(gp)+rain(gp)+IRRIGutile(gp)-Ete(gp)<CIMmm(gp)) allora 0
         //altrimenti (UMIDmm(gp)+rain(gp)+IRRIGutile(gp)-Ete(gp)-CIMmm(gp))
         
-        double umidMm = file.getLast("UMIDmm");
-        double rain = file.getLast("rain");
-        double irrigUtile = file.getLast("IRRIGutile");
-        double ete = file.getLast("ete");
-        double cimMm = file.getLast("CIMmm");
+        double umidMm = WaterBalance.fileManager.valueFromFile("UMIDmm");
+        double rain = WaterBalance.fileManager.valueFromFile("rain");
+        double irrigUtile = WaterBalance.fileManager.valueFromFile("IRRIGutile");
+        double ete = WaterBalance.fileManager.valueFromFile("Ete");
+        double cimMm = WaterBalance.fileManager.valueFromFile("CIMmm");
         
         if(umidMm + rain + irrigUtile - ete < cimMm) {
             return 0;
@@ -158,11 +159,11 @@ public class FormulaManager {
         //SE(UMIDmm(gp)+rain(gp)+IRRIGutile(gp)-ete(gp)<CCmm(gp)) allora 0
         //altrimenti (UMIDmm(gp)+rain(gp)+IRRIGutile(gp)-ete(gp)-RUSCmm-CCmm(gp))
         
-        double umidMm = file.getLast("UMIDmm");
-        double rain = file.getLast("rain");
-        double irrigUtile = file.getLast("IRRIGutile");
-        double ete = file.getLast("ete");
-        double ccMm = file.getLast("CCmm");
+        double umidMm = WaterBalance.fileManager.valueFromFile("UMIDmm");
+        double rain = WaterBalance.fileManager.valueFromFile("rain");
+        double irrigUtile = WaterBalance.fileManager.valueFromFile("IRRIGutile");
+        double ete = WaterBalance.fileManager.valueFromFile("Ete");
+        double ccMm = WaterBalance.fileManager.valueFromFile("CCmm");
         
         if(umidMm + rain + irrigUtile - ete < ccMm) {
             return 0;
@@ -505,6 +506,8 @@ public class FormulaManager {
         double ete = etc() * ks();
         
         calculations.put(name, ete);
+        
+        System.out.println(name + ": " + ete);
         
         return ete;
     }

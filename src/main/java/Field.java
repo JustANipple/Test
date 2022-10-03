@@ -14,7 +14,7 @@ public class Field {
         this.corg = 0;
         this.profmm = 0;
         this.kc = 0;
-        
+            
     }
 
     public double getSabbia() {

@@ -19,21 +19,23 @@ public class WaterBalance {
         //Stazione meteo
         fileManager.stationFileSetup();
         fileManager.stationDatasRegistration();
-        fileManager.stationDatasReport();
+        //fileManager.stationDatasReport();
         
         //Campo
         fileManager.fieldFileSetup();
         fileManager.fieldDatasRegistration();
-        fileManager.fieldDatasReport();
+        //fileManager.fieldDatasReport();
         
         //Chiamata funziona costanti per registrarle e salvarle su file
         forManager.constant();
         
         //Costanti del suolo
         fileManager.constantFileSetup();
-        fileManager.constantDatasReport();
+        //fileManager.constantDatasReport();
         
-        fileManager.calculationsReport();
+        forManager.ete();
+        fileManager.CalculationsReport();
+        
         
         long end = System.currentTimeMillis();
         

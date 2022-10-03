@@ -2,6 +2,9 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Scanner;
 
     //Creare un HashMap dove metto tutti i valori dei file dell'ultimo giorno
     //in modo da poter accedere tranquillamente a qualsiasi valore poi dal
@@ -142,9 +145,40 @@ public class FileManager{
         }
     }
     
-    public void calculationsReport() {
-        for(String key : manager.calculations.keySet()) {
-            System.out.println(key + " " + manager.calculations.get(key));
+    //Scorrimento di tutti e 4 i file per trovare il valore registrato dell'ultimo giorno
+    public double valueFromFile(String str) {
+        
+        ArrayList<String> files = new ArrayList<>();
+        files.add("WSreport.txt");
+        files.add("FieldReport.txt");
+        files.add("ConsReport.txt");
+        files.add("Calculations.txt");
+        
+        double value = 0;
+        
+        for(int i = 0; i < files.size(); i++) {
+            try(Scanner toScan = new Scanner(Paths.get(files.get(i)))) {
+                while(toScan.hasNextLine()) {
+                    String[] parts = toScan.nextLine().split(":");
+                    if(parts[0].contains(str)) {
+                        value = Double.valueOf(parts[1].trim());
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            } 
+        }
+        return value;
+    }
+    
+    public void CalculationsReport() {
+        try(FileWriter writer = new FileWriter("Calculations.txt",true)) {
+            for(String key : this.manager.calculations.keySet()) {
+                writer.write(key + ": " + this.manager.calculations.get(key) + "\n");
+            }
+            writer.write("\n");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }

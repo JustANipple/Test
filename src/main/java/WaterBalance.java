@@ -8,6 +8,8 @@ public class WaterBalance{
     public static FormulaManager forManager;
     public static FileManager fileManager;
     public static Scanner scanner;
+
+
         
     public static void main(String[] args) {
         
@@ -51,10 +53,10 @@ public class WaterBalance{
         //Risultati delle formule
         fileManager.calculationFileSetup();
         //fileManager.calculationsReport();
+
                 
         long end = System.currentTimeMillis();
         
         System.out.println("\nTime: " + (end-start) + " milliseconds");
     }
-    
 }

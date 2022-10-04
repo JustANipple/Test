@@ -1,17 +1,14 @@
 
 import java.util.Scanner;
-import javafx.application.Application;
-import javafx.stage.Stage;
 
-public class WaterBalance {
+public class WaterBalance{
     
     public static WeatherStation ws;
     public static Field field;
     public static FormulaManager forManager;
     public static FileManager fileManager;
     public static Scanner scanner;
-    
-    
+        
     public static void main(String[] args) {
         
         ws = new WeatherStation();
@@ -34,41 +31,30 @@ public class WaterBalance {
         
         
         //Stazione meteo
-        //fileManager.stationFileSetup();
-        //fileManager.stationDatasRegistration();
+        fileManager.stationFileSetup();
+        fileManager.stationDatasRegistration();
         //fileManager.stationDatasReport();
         
         //Campo
-        //fileManager.fieldFileSetup();
-        //fileManager.fieldDatasRegistration();
+        fileManager.fieldFileSetup();
+        fileManager.fieldDatasRegistration();
         //fileManager.fieldDatasReport();
         
         //Costanti del suolo
-        //fileManager.constantFileSetup();
+        fileManager.constantFileSetup();
         //Chiamata funzione costanti per registrarle e salvarle su file
-        //forManager.constant();
+        forManager.constant();
         //fileManager.constantDatasReport();
         
-        //forManager.ete();
+        forManager.ete();
         
         //Risultati delle formule
-        //fileManager.calculationFileSetup();
+        fileManager.calculationFileSetup();
         //fileManager.calculationsReport();
-        
-        launch(JavaFxApplication.class);
-        
+                
         long end = System.currentTimeMillis();
         
         System.out.println("\nTime: " + (end-start) + " milliseconds");
     }
-    
-    public class JavaFxApplication extends Application {
-        
-        public void start(Stage window) {
-            
-        }
-    }
-    
-    
     
 }

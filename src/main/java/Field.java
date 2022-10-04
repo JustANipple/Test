@@ -32,7 +32,6 @@ public class Field {
     public double getKc() {
         return kc;
     } 
-
     public void setSabbia(double sabbia) {
         this.sabbia = sabbia;
     }

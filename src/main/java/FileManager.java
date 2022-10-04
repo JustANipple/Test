@@ -6,10 +6,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-    //Creare un HashMap dove metto tutti i valori dei file dell'ultimo giorno
-    //in modo da poter accedere tranquillamente a qualsiasi valore poi dal
-    //formulaManager richiamando la key del valore
-
 public class FileManager{
     
     public FormulaManager manager;
@@ -54,7 +50,9 @@ public class FileManager{
     //Scrittura dei dati sul file
     public void stationDatasReport() {        
         try(FileWriter writer = new FileWriter("WSreport.txt",true)) {
-            writer.write("minTemp(C): " + manager.ws.getMinTemp() + "\n" +
+            writer.write("JulianDay: " + manager.ws.getJulianDay() + "\n" +
+                        "date(DD-MM-YYYY): " + manager.ws.getDate() + "\n" +
+                        "minTemp(C): " + manager.ws.getMinTemp() + "\n" +
                         "maxTemp(C): " + manager.ws.getMaxTemp() + "\n" +
                         "avgTemp(C): " + manager.ws.getAvgTemp() + "\n" +
                         "rain(mm): " + manager.ws.getRain() + "\n" +
@@ -64,8 +62,6 @@ public class FileManager{
                         "wind(m/s): " + manager.ws.getWind() + "\n" +
                         "altitude(m): " + manager.ws.getAltitudine() + "\n" +
                         "latitude(m): " + manager.ws.getLatitudine() + "\n" +
-                        "date(DD-MM-YYYY): " + manager.ws.getDate() + "\n" +
-                        "JulianDay: " + manager.ws.getJulianDay() + "\n" +
                         "\n");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -188,6 +184,8 @@ public class FileManager{
     //Scrittura del calcoli su file
     public void calculationsReport() {
         try(FileWriter writer = new FileWriter("Calculations.txt",true)) {
+            writer.write(manager.ws.getJulianDay() + "\n");
+            writer.write(manager.ws.getDate() + "\n");
             for(String key : this.manager.calculations.keySet()) {
                 writer.write(key + ": " + this.manager.calculations.get(key) + "\n");
             }
